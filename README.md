@@ -73,7 +73,7 @@ https://<ID>.lambda-url.us-east-1.on.aws/
 {
     "lastViewedDate": "2023-02-06T00:15:05.319Z",
     "createdDate": "2023-02-06T00:15:05.319Z",
-    "shortUrl": "https://cutmyurl.com/oaIL23dz",
+    "shortUrl": "https://<YOUR_DOMIAN_NAME>/oaIL23dz",
     "viewsCount": 0,
     "shortValue": "oaIL23dz",
     "originalUrl": "https://google.com"

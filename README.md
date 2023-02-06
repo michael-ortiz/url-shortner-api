@@ -51,15 +51,16 @@ URL Example: (See Terraform output for `get_short_url_function_url` for actual U
 https://<ID.lambda-url.us-east-1.on.aws/
 ```
 
-Request Body:
+### Request Body:
 
 ```
 {
-    "url": "https://google.com"
+    "url": "https://google.com",
+    "alias": "custom-alias"
 }
 ```
 
-Response Body:
+### Response Body:
 
 ```
 {
@@ -72,6 +73,28 @@ Response Body:
 }
 ```
 
+### Properties
+
+---
+`url`
+
+*Description:* A long url. Support https, http and non protocol URL's.
+
+*Required:* `Yes`  
+
+*Type:* `string`
+
+---
+
+`alias`
+
+*Description:* A custom alias (name) for the URL. If this is used, a random ID will not be returned and instead a custom alias will be used.
+
+*Required:* `No`  
+
+*Type:* `string`
+
+---
 
 ## Get Original URL
 
@@ -82,13 +105,13 @@ URL Example: (See Terraform output for `get_original_url_function_url` for actua
 https://<ID.lambda-url.us-east-1.on.aws
 ```
 
-Request Query:
+### Request Query:
 
 ```
 https://<ID.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
 ```
 
-Response Body:
+### Response Body:
 
 ```
 {
@@ -100,6 +123,19 @@ Response Body:
     "originalUrl": "https://google.com"
 }
 ```
+
+### Query Parameters
+---
+
+`shortValue`
+
+*Description:* A unique ID that will be used as the URL path. This value is returned when first creating a shortUrl.
+
+*Required:* `Yes`  
+
+*Type:* `string`
+
+---
 
 
 ## Get URL Statistics
@@ -111,13 +147,13 @@ URL Example: (See Terraform output for `get_url_stats_function_url` for actual U
 https://<ID.lambda-url.us-east-1.on.aws
 ```
 
-Request Query:
+### Request Query:
 
 ```
 https://<ID.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
 ```
 
-Response Body:
+### Response Body:
 
 ```
 {
@@ -129,3 +165,16 @@ Response Body:
     "originalUrl": "https://google.com"
 }
 ```
+
+### Query Parameters
+---
+
+`shortValue`
+
+*Description:* A unique ID that will be used as the URL path. This value is returned when first creating a shortUrl.
+
+*Required:* `Yes`  
+
+*Type:* `string`
+
+---

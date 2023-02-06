@@ -1,6 +1,13 @@
-# aws-url-shortner-api
+# url-shortner-api
 
-This project contains the necessary infrastructure as code and lambda code to host a URL shortener API. Convert any long URL's to a short one. Easily connect this API to your front end application. 
+`AWS Hosted Project`
+
+This project contains the necessary infrastructure as code and lambda code to host a URL shortener API. Convert any long URL's to a short one. Easily connect this API to your front end application.
+
+**AWS Services Used**:
+
+* AWS Lambda: For the backend API.
+* AWS DynamoDB: For storing link references.
 
 # ⚙️ Installation
 

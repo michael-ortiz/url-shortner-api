@@ -1,8 +1,8 @@
 # aws-url-shortner-api
 
-This project contains the necessary infrastructure as code and lambda code to host a URL shortener API.
+This project contains the necessary infrastructure as code and lambda code to host a URL shortener API. Convert any long URL's to a short one. Easily connect this API to your front end application. 
 
-# Installation
+# ⚙️ Installation
 
 To deploy the application you must have [terraform cli](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) and [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
 
@@ -23,6 +23,7 @@ provider "aws" {
 
 Next, go to `vars.tf` and change in `locals` the following values: `domain_name` and `domain_protocol`.
 
+# 🚀 Deployment
 Execute the following commands to deploy the infrastructure and lambdas:
 
 ```sh
@@ -33,7 +34,7 @@ terraform apply
 
 Once deployed, you should see in the outputs the URL's pointing to your lambdas.
 
-# API Usage
+# 🔗 API Usage
 
 The API contains 3 different lambdas. Below we explain how to use each:
 

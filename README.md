@@ -48,7 +48,8 @@ Method: `POST`
 
 URL Example: (See Terraform output for `get_short_url_function_url` for actual URL)
 ```
-https://<ID.lambda-url.us-east-1.on.aws/
+https://
+>.lambda-url.us-east-1.on.aws/
 ```
 
 ### Request Body:
@@ -102,13 +103,13 @@ Method: `GET`
 
 URL Example: (See Terraform output for `get_original_url_function_url` for actual URL)
 ```
-https://<ID.lambda-url.us-east-1.on.aws
+https://<ID>.lambda-url.us-east-1.on.aws
 ```
 
 ### Request Query:
 
 ```
-https://<ID.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
+https://<ID>.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
 ```
 
 ### Response Body:
@@ -144,13 +145,13 @@ Method: `GET`
 
 URL Example: (See Terraform output for `get_url_stats_function_url` for actual URL)
 ```
-https://<ID.lambda-url.us-east-1.on.aws
+https://<ID>.lambda-url.us-east-1.on.aws
 ```
 
 ### Request Query:
 
 ```
-https://<ID.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
+https://<ID>.lambda-url.us-east-1.on.aws?shortValue=<SHORT_VALUE>
 ```
 
 ### Response Body:

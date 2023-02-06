@@ -1,18 +1,17 @@
 import * as AWS from "@aws-sdk/client-dynamodb";
 const ddb = new AWS.DynamoDB({ region: "us-east-1" });
 
+const headers = {
+    // Required for CORS support to work
+    'Access-Control-Allow-Origin': '*',
+    // Required for cookies, authorization headers with HTTPS
+    'Access-Control-Allow-Credentials': true
+}
 
 const validShortValueRegex = /^[A-Za-z0-9_-]{1,64}$/
 
 export const handler = async(event) => {
 
-    const headers = {
-        // Required for CORS support to work
-        'Access-Control-Allow-Origin': '*',
-        // Required for cookies, authorization headers with HTTPS
-        'Access-Control-Allow-Credentials': true
-    }
-    
     console.log(event)
     
     if (event.requestContext.http.method !== 'GET') {

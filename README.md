@@ -48,8 +48,7 @@ Method: `POST`
 
 URL Example: (See Terraform output for `get_short_url_function_url` for actual URL)
 ```
-https://
->.lambda-url.us-east-1.on.aws/
+https://<ID>.lambda-url.us-east-1.on.aws/
 ```
 
 ### Request Body:

@@ -11,9 +11,10 @@ const headers = {
 const validShortValueRegex = /^[A-Za-z0-9_-]{1,64}$/
 
 export const handler = async(event) => {
-
-    console.log(event)
     
+    const queryParameters = event.queryStringParameters
+
+    // Only allow GET requests
     if (event.requestContext.http.method !== 'GET') {
         return {
             statusCode: 401,
@@ -22,11 +23,10 @@ export const handler = async(event) => {
         }
     }
 
-    const query = event.queryStringParameters
-
     // Extract short value
-    const shortValue = query.shortValue;
+    const shortValue = queryParameters.shortValue;
 
+    // Validate shortValue parameter
     if (!validShortValueRegex.test(shortValue)) {
         return {
             statusCode: 404,
@@ -35,7 +35,8 @@ export const handler = async(event) => {
         }
     }
 
-    let item = await getUrlFromDynamoDB(shortValue);
+    // Get URL statistics
+    const item = await getUrlStatisticsFromDynamoDB(shortValue);
     
     if (item != null) {
         return {
@@ -50,12 +51,18 @@ export const handler = async(event) => {
             headers: headers
         }
     }
-    
 };
 
-async function getUrlFromDynamoDB(shortValue) {
+/**
+ * 
+ * Gets URL statistics from DynamoDB by passing a shortValue.
+ * 
+ * @param {*} shortValue 
+ * @returns 
+ */
+async function getUrlStatisticsFromDynamoDB(shortValue) {
 
-    var params = {
+    const params = {
         TableName: process.env.TABLE_NAME,
         Key: {
           'ShortValue' : {S: shortValue}
@@ -73,7 +80,7 @@ async function getUrlFromDynamoDB(shortValue) {
             lastViewedDate: data.Item.LastViewedDate.S,
         }
     } catch (e) {
-        console.log("Error", e)
+        console.error("Error", e)
         return null;
     }
 }

@@ -10,6 +10,7 @@ const headers = {
 
 export const handler = async(event) => {
 
+    // Only allow GET HTTP method
     if (event.requestContext.http.method !== 'GET') {
         return {
             statusCode: 401,
@@ -18,20 +19,21 @@ export const handler = async(event) => {
         }
     }
     
-    const query = event.queryStringParameters
+    const queryParameters = event.queryStringParameters
     
-    let shortValue = query.shortValue;
+    let shortValue = queryParameters.shortValue;
 
+    // Validate shortValue 
     const validShortValueRegex = /^[A-Za-z0-9_-]{1,64}$/
-    
     if (!validShortValueRegex.test(shortValue)) {
         return {
-            statusCode: 404,
+            statusCode: 400,
             body: { message: "Invalid URL" },
             headers: headers
         }
     }
 
+    // Fetch URL from DynamoDB
     let item = await getUrlFromDynamoDB(shortValue);
     
     if (item != null) {
@@ -55,6 +57,13 @@ export const handler = async(event) => {
     
 };
 
+/**
+ * 
+ * Gets URL from DynamoDB by passing a short value.
+ * 
+ * @param {*} shortValue 
+ * @returns 
+ */
 async function getUrlFromDynamoDB(shortValue) {
 
     var params = {
@@ -75,11 +84,17 @@ async function getUrlFromDynamoDB(shortValue) {
             lastViewedDate: data.Item.LastViewedDate.S,
         }
     } catch (e) {
-        console.log("Error", e)
+        console.error("Error", e)
         return null;
     }
 }
 
+/**
+ * Updates the URL viewCounter un DynamoDB
+ * 
+ * @param {*} shortValue 
+ * @returns 
+ */
 async function updateViewCounter(shortValue) {
 
     const params = {
@@ -103,7 +118,7 @@ async function updateViewCounter(shortValue) {
             lastViewedDate: data.Attributes.LastViewedDate.S 
         }
     } catch (e) {
-        console.log("Error", e)
+        console.error("Error", e)
         return null;
     }
 

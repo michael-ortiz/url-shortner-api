@@ -27,35 +27,16 @@ export const handler = async(event) => {
     let url = body.url;
     let alias = body.alias;
 
-    if (url === undefined || url == "") {
-        return { 
-            statusCode: 401, 
-            body: { message: "{ url } parameter cannot be empty" },
-            headers: headers
-        }
-    }
-    
-    // Test for valid URL
-    if (!validUrlRegex.test(url)) {
-        return { 
-            statusCode: 401, 
-            body: { message: "URL is not valid." },
-            headers: headers
-        }
+     // Validate request params
+    const validationRequest = validateRequestParameters(url, alias)
+    if (validationRequest.statusCode != 200) {
+        return validationRequest
     }
 
+    // Validate if alias is available
     if (alias) {
-        if (!validAliasRegex.test(alias)) {
-            return { 
-                statusCode: 401, 
-                body: { message: "Invalid alias. Allowed characters: (A-Z a-z 0-9 _ -)" },
-                headers: headers   
-            }
-        }
-
-        // Validate if alias is available
         let data = await getUrlFromDynamoDB(alias)
-        if (data != null || alias === "stats") {
+        if (data != null) {
             return { 
                 statusCode: 401, 
                 body: { message: "Alias taken. Please enter a different value." },
@@ -64,7 +45,7 @@ export const handler = async(event) => {
         }
     }
 
-    // Generate short id
+    // Generate short id or alias
     const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)
     var shortValue = alias ? alias : nanoid()
     
@@ -97,6 +78,13 @@ export const handler = async(event) => {
     
 };
 
+/**
+ * 
+ * Insert record into DynamoDB
+ * 
+ * @param {*} object 
+ * @returns 
+ */
 async function insertIntoDynamoDB(object) {
 
     var params = {
@@ -115,11 +103,18 @@ async function insertIntoDynamoDB(object) {
         await ddb.putItem(params);
         return true;
     } catch (e) {
-        console.log("Error", e)
+        console.error("Error", e)
         return false;
     }
 }
 
+/**
+ * 
+ * Get URL from DynamoDB by passing a shortValue
+ * 
+ * @param {*} shortValue 
+ * @returns 
+ */
 async function getUrlFromDynamoDB(shortValue) {
 
     var params = {
@@ -142,5 +137,44 @@ async function getUrlFromDynamoDB(shortValue) {
     } catch (e) {
         console.log("Item does not exists", e)
         return null;
+    }
+}
+
+/**
+ * 
+ * Validates the request parameters
+ * 
+ * @param {*} url 
+ * @param {*} alias 
+ * @returns 
+ */
+function validateRequestParameters(url, alias) {
+
+    if (url === undefined || url == "") {
+        return { 
+            statusCode: 401, 
+            body: { message: "{ url } parameter cannot be empty" },
+            headers: headers
+        }
+    }
+
+    if (!validUrlRegex.test(url)) {
+        return { 
+            statusCode: 401, 
+            body: { message: "URL is not valid." },
+            headers: headers
+        }
+    }
+
+    if (alias && !validAliasRegex.test(alias)) {
+        return { 
+            statusCode: 401, 
+            body: { message: "Invalid alias. Allowed characters: (A-Z a-z 0-9 _ -)" },
+            headers: headers   
+        }
+    }
+    
+    return { 
+        statusCode: 200
     }
 }

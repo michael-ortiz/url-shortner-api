@@ -194,8 +194,8 @@ resource "aws_iam_role_policy_attachment" "get_original_url" {
 
 data "archive_file" "get_url_stats" {
   type        = "zip"
-  source_dir  = "./functions/get-url-stats"
-  output_path = ".build/get-url-stats.zip"
+  source_dir  = "./functions/get-url-statistics"
+  output_path = ".build/get-url-statistics.zip"
 }
 
 resource "aws_lambda_function" "get_url_stats" {
